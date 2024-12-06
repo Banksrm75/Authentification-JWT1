@@ -6,10 +6,51 @@ from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
+#JWT Modules
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
 CORS(api)
+
+
+
+
+
+
+# Create a route to authenticate your users and return JWTs. The
+# create_access_token() function is used to actually generate the JWT.
+@api.route("/token", methods=["POST"])
+def generate_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+
+
+    ## *****  HW: check for existing user and, if one exists, issue the token
+
+    # Test that the user exists
+    if email != "MMouse@Disney.com" or password != "password":
+        return jsonify({"msg": "Bad email or password"}), 401
+
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @api.route('/hello', methods=['POST', 'GET'])

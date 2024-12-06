@@ -11,6 +11,9 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 
+# JWT Module
+from flask_jwt_extended import JWTManager
+
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -19,7 +22,11 @@ static_file_dir = os.path.join(os.path.dirname(
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-# database condiguration
+# Setup the Flask-JWT-Extended extension - MUST BE AFTER  "app = Flask(__name__)"
+app.config["JWT_SECRET_KEY"] = os.environ.get('FLASK_SECRET_KEY')
+jwt = JWTManager(app)
+
+# database configuration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
