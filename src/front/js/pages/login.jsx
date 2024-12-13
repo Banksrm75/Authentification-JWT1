@@ -1,5 +1,7 @@
+// CURRENT USERS - LOG IN TO USE THE PRIVATE PAGE
 
-import React, {useContext, useState} from 'react';
+
+import React, {useContext, useEffect, useState} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Context } from '../store/appContext';
 
@@ -10,10 +12,14 @@ const Login = () => {
     const [password, setPassword] = useState("")
 
     const handleClick = () => {
-        actions.login(email, password).then(() => {
-            navigate("/private")
-        })
+        actions.login(email, password)
     }
+
+    useEffect( () => {
+        if(store.isLoginSuccessful) {
+            navigate("/private")
+        }
+    }, [store.isLoginSuccessful])
 
     return (
         <>

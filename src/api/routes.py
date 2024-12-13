@@ -55,7 +55,7 @@ def generate_token():
 
 
 # /signup POST
-# Create a route for /signup that will add a user's email and password to the DB
+# Create a route for /signup that will add a user's email and password to the database
 @api.route('/signup', methods=['POST'])
 def register_user():
 
@@ -98,7 +98,7 @@ def register_user():
 # APPLY the access token to access a PRIVATE page
 # Create a route for /private that will display the private page based on the user's access token
         # Protect a route with jwt_required, which will kick out requests without a valid JWT present.       
-api.route('/private', methods=['GET'])
+@api.route('/private', methods=['GET'])
 @jwt_required()
 def get_private_page():
 
